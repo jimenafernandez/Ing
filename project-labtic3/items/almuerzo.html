@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KS</title>
+
+    <!-- CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../css/stylesIndex.css">
+    <link rel="stylesheet" type="text/css" href="../css/stylesItems.css">
+    <link rel="stylesheet" type="text/css" href="../css/login-style.css">
+
+    <script   src="http://code.jquery.com/jquery-3.1.1.js"   integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="   crossorigin="anonymous"></script>
+  <script type="text/javascript" src="../bdd/bdAccess.js"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/logIn.js"></script>
+  </head>
+  <body style="background-color: #f68912;">
+  <div class="panel panel-default" id= "titulo" style="background-color: #333333;">
+    <div class="panel-heading">
+    	<!--<button type="button" class="pull-right btn-warning" onclick="loginWindow(true);">
+        <p>Log in<span class="glyphicon glyphicon-log-in"></span></p>
+        </button>-->
+          <a href="../index.html"><h1>KS -Kiosko system</h1></a>
+    </div>
+
+    <div id="catalog" class="panel col-lg-2 ">
+    	<div class="panel-heading">
+    		<h2>Categorías</h2>
+    	</div>
+    	<div class="panel-body">
+    	<ol>
+            <li onclick='location.href="../items/snacks.html";'>
+                Snacks
+            </li>
+            <li onclick='location.href="../items/almuerzo.html";' style="color:blue;">
+                Almuerzo
+            </li>
+            <li onclick='location.href="../items/bebidas.html";'>
+                Bebidas
+            </li>
+            <li onclick='location.href="../items/otros.html";'>
+                Otros
+            </li>
+        </ol>
+    	</div>
+    </div>
+     <div id="empty" class="col-lg-1">
+    </div>
+    <div id="list" class="panel col-lg-9">
+    	<div class="panel-heading">
+    		<h2>Almuerzo</h2>
+
+    	</div>
+    	<div class="panel-body container-fluid">
+  				<div id="listAll" class="row">
+        <script>
+          $.ajax({
+            url:"../bdd/queryInterface.php?table='categoria'&query=2&opt=1",
+            async:false,
+            success: function(input){
+              var obj=$.parseJSON(input);
+              var arr = $.map(obj, function(el) { return el });
+              var id_cat;
+              $.each(arr,function(index,elem){
+                if(elem["nombre"]=="almuerzo"){
+                  id_cat=elem["id"];      
+              }
+          });
+            $.ajax({
+            url:"../bdd/queryInterface.php?table='item'&query=2&opt=1",
+            async:false,
+            success: function(input){
+              var obj=$.parseJSON(input);
+              var arr = $.map(obj, function(el) { return el });
+              var lista=document.getElementById("listAll");
+              $.each(arr,function(index,elem){
+                if(elem["id_cat"]==id_cat){
+                  var div = document.createElement("div");
+                  div.className="col-md-3 articulo";
+                  div.innerHTML="<div class=\"thumbnail\"><img style=\"width:300px;height:200px;\" src=\""+elem["rutaFoto"]+"\"><div class=\"precio\">"+elem["nombre"]+" - $"+elem["precio"]+"</div></div>";
+                  lista.appendChild(div);
+
+              }
+            });
+              
+          }
+        });     
+        }
+      });   
+      </script>
+        </div>
+  </div><!-- container de los artículos -->
+    </div>
+
+    </div>
+
+    <!-- 
+  	<div class="container" id="login-form">
+  		<form action="bdd/login.php" method="post">
+  			<span id="cerrar" title="Cerrar" onclick="loginWindow(false);">&times;</span>
+  			<fieldset>
+  				<legend>Login</legend>
+  				<label>Usuario</label>
+  				<input class="campo" type="text" name="user">
+  				<br>
+  				<br>
+  				<label>Contraseña</label>
+  				<input class="campo" type="password" name="pass">
+  				<br>
+  				<br>
+  				<input class="boton" type="submit" value="Ingresar">
+  			</fieldset>
+  		</form>
+  	</div>  -->
+
+   
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KS</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/stylesIndex.css">
+	<link rel="stylesheet" type="text/css" href="css/login-style.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/logIn.js"></script>
+    <script src="bdd/bdAccess.js"></script>
+    <script   src="http://code.jquery.com/jquery-3.1.1.js"   integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="   crossorigin="anonymous"></script>
+  </head>
+  <body style="background-color: #f68912;">
+  <div class="panel panel-default" id= "titulo" style="background-color: #333333;">
+
+    <div class="panel-heading col-lg-12 col-md-12 col-sm-12 pull-left">
+    	<button type="button" class="pull-right btn-warning" onclick="loginWindow(true);">
+        <p>Log in<span class="glyphicon glyphicon-log-in"></span></p>
+        </button>
+          <a href="index.html"><h1>KS -Kiosko system</h1></a>
+    </div>
+
+    <div id="catalog" class="panel col-lg-2 col-md-12 col-sm12 pull-left">
+    	<div class="panel-heading">
+    		<h2>Categorías</h2>
+    	</div>
+    	<div class="panel-body">
+    	<ol>
+    		<li onclick='location.href="items/snacks.html";'>
+    			Snacks
+    		</li>
+    		<li onclick='location.href="items/almuerzo.html";'>
+    			Almuerzo
+    		</li>
+ 			<li onclick='location.href="items/bebidas.html";'>
+    			Bebidas
+    		</li>
+    		<li onclick='location.href="items/otros.html";'>
+    			Otros
+    		</li>
+    	</ol>
+    	</div>
+    </div>
+     <div id="empty" class="col-lg-1">
+    </div>
+    <div id="list" class="panel col-lg-9 col-md-12 col-sm-12 pull-left">
+    	
+        <div class="panel-heading">
+    		<h2>Elija una categoria y busque un artículo</h2>
+            <form class="form-padding" style="text-align: center;">
+                                <input id="searchField" class="button col-lg-10 col-md-10 col-sm-10" type="text" placeholder="Search..." required>
+                                <input class="button col-lg-2 col-md-2 col-sm-2" type="button" value="Search" onclick="javascript:buscarItems()">
+                                <!-- <button type="button" value="Search" onclick="javascript:buscarItems();">Search</button> -->
+            </form>
+        <div id="listAll" class="row" style="text-align: center;"">
+                        <img id="listaIndex" class="pull-center" src="./img/logo.jpg" style="margin:20px;" width="328" height="183">
+       <script>
+                    function buscarItems(){
+                                $.ajax({
+                                url:"./bdd/queryInterface.php?table='item'&query=2&opt=1",
+                                async:false,
+                                success: function(input){
+                                  var obj=$.parseJSON(input);
+                                  var arr = $.map(obj, function(el) { return el });
+                                  var lista=document.getElementById("listAll");
+                                  lista.innerHTML=""
+                                  var searchField = document.getElementById("searchField");
+                                  ctrl=true
+                                  $.each(arr,function(index,elem){
+                                   if(elem["nombre"].toLowerCase()==searchField.value.toLowerCase()){
+                                      var div = document.createElement("div");
+                                      div.className="col-md-3 articulo";
+                                      ruta=elem["rutaFoto"].split("/");
+                                      div.innerHTML="<div class=\"thumbnail\" style=\"margin:20px;\"><img style=\"width:300px;height:200px;\" src=\""+ruta[1]+"/"+ruta[2]+"/"+ruta[3]+"/"+ruta[4]+"/"+ruta[5]+"\"><div class=\"precio\">"+elem["nombre"]+" - $"+elem["precio"]+"</div></div>";
+                                      lista.appendChild(div);
+                                      ctrl=false;
+                                  }
+                                });
+                                  if(ctrl){
+                                  	lista.innerHTML="<h3 style=\"margin-top:40px;text-align:left;\">No se encontro búsqueda</h3>"
+                                  }
+                              }
+                            });     
+                        }   
+      </script>
+      </div>
+    	</div>
+    	<div class="panel-body">
+			
+    	</div>
+    </div>
+
+    </div>
+
+	<!-- LOGIN -->
+	<div class="container modal-form" id="login-form">
+		<!--form action="bdd/login.php" method="post"-->
+		<form action="javascript:confirmLogin();">
+		<fieldset>
+            <span id="cerrar" title="Cerrar" onclick="loginWindow(false);">&times;</span>
+		    
+        		<legend>Login</legend>
+				<label>Usuario</label>
+				<input id="user" class="campo" type="text" name="user">
+				<br>
+				<br>
+				<label>Contraseña</label>
+				<input id="pass" class="campo" type="password" name="pass">
+				<br>
+				<br>
+				<input class="boton" type="submit" value="Ingresar">
+
+			</fieldset>
+        </form>		
+	</div> <!-- LOGIN -->
+
+  </body>
+</html>

@@ -1,0 +1,67 @@
+body{
+  background-color: #f68912;
+}
+
+/***** Navigation *****/
+
+#main-nav{
+  background-color:#333333;
+  color:white;
+  height:50px;
+}
+
+#main-nav .navbar-brand{
+  color:white;
+  font-weight: bold;
+}
+
+#main-nav .navbar-brand:hover{
+  color:black;
+  text-shadow:1px 0px white, 0px 1px white, -1px 0px white, 0px -1px white;
+}
+
+/***** Lista *****/
+
+#lista{
+  background-color:white;
+  border: 1px solid black;
+}
+
+#lista h1{
+  font-size:125%;
+}
+
+#lista .row{
+  border-bottom:1px solid black;
+  padding-top:5px;
+  padding-bottom:5px;
+}
+
+/*#lista:last-child{
+  border-bottom:none;
+} No anduvo y no se por qué*/
+
+#lista .row:last-of-type{
+  border-bottom:none;
+}
+
+#lista .row button:last-of-type{
+  margin-right:10px;
+}
+
+/***** Cerrar sesion *****/
+
+#cerrar-sesion{
+  margin-top:10px;
+}
+
+#cerrar-sesion a{
+  color:white;
+  font-weight: bold;
+}
+
+#cerrar-sesion a:hover{
+  color:black;
+  text-shadow:1px 0px white, 0px 1px white, -1px 0px white, 0px -1px white;
+}
+

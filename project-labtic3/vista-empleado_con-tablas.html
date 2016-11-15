@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vista empleados</title>
+
+	<meta charset="utf-8">
+
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/style-tablas.css">
+	<link rel="stylesheet" href="css/login-style.css">
+	<link rel="stylesheet" href="img/ajaxupload/style/style.css">
+	<script   src="http://code.jquery.com/jquery-3.1.1.js"   integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="   crossorigin="anonymous"></script>
+	<script type="text/javascript" src="./bdd/bdAccess.js"></script>
+	<script type="text/javascript" src="./js/logIn.js">
+	</script>
+</head>
+<body id="cuerpo">
+
+	<nav class="nav navbar-default" id="main-nav">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="#" class="navbar-brand">KS - Kiosk System</a>
+			</div>
+		</div>
+	</nav> <!-- Header -->
+
+	<div class="container-fluid text-center">
+		<h1>Artículos</h1>
+		<!--<button onclick="document.getElementById('login-form').style.display= 'block'">LOGIN-TEST</button>-->
+	</div>
+
+	<div class="container" id="lista">
+
+			<table id="tablaArticulos">
+				<tr>
+					<td>
+						<button type="button"  onclick="newItemWindow(true);">
+							<div class="glyphicon glyphicon-plus"></div>
+							Agregar artículo
+						</button>
+						<!--<button type="button"  onclick="deleteItemWindow(true);">
+							<div class="glyphicon glyphicon-minus"></div>
+							Borrar artículo
+						</button>-->
+						<button type="button"  onclick="newUserWindow(true);">
+							<div class="glyphicon glyphicon-eye-open"></div>
+							Agregar Usuario
+						</button>
+						<button type="button"  onclick="deleteUserWindow(true);">
+							<div class="glyphicon glyphicon-eye-close"></div>
+							Borrar Usuario
+						</button>
+					</td>
+				</tr>
+				<tr>
+					<th>Acciones</th>
+					<th>Nombre</th>
+					<th>Precio</th>
+				</tr>
+
+				<script>
+					$.ajax({
+						url:"./bdd/queryInterface.php?table='item'&query=2&opt=1",
+						async:false,
+						success: function(input){
+							var obj=$.parseJSON(input);
+							var arr = $.map(obj, function(el) { return el });
+							var tabla=document.getElementById("tablaArticulos");
+							$.each(arr,function(index,elem){
+								var tr=document.createElement("tr");
+								var td1=document.createElement("td");
+								var b1=document.createElement("button");
+								b1.innerHTML='<div class="glyphicon glyphicon-pencil"></div>';
+								b1.onclick=function(){confirmChange(true,elem["nombre"])};
+								var b2=document.createElement("button");
+								b2.innerHTML='<div class="glyphicon glyphicon-trash"></div>';
+								b2.onclick=function(){confirmDelete(elem["nombre"])};// Borrado de items
+								var b3=document.createElement("button");
+								b3.innerHTML='<div class="glyphicon glyphicon-camera"></div>';
+								var data={ctrl:false};
+								b3.onclick=function(){confirmImage(elem["nombre"],data)};
+								td1.appendChild(b1);
+								td1.appendChild(b2);
+								td1.appendChild(b3);
+								var td2=document.createElement("td");
+								td2.innerHTML=elem["nombre"];
+
+								var td3=document.createElement("td");
+								td3.innerHTML="$"+elem["precio"];
+								tr.appendChild(td1);
+								tr.appendChild(td2);
+								tr.appendChild(td3);
+								document.getElementById("tablaArticulos").appendChild(tr);
+					});
+				}
+			});		
+			</script>
+</table>
+
+</div> <!-- Lista de artículos-->
+
+<div id="cerrar-sesion" class="text-center">
+	<a href="index.html">Cerrar sesión
+		<div class="glyphicon glyphicon-log-out"></div>
+	</a>
+</div>
+
+		
+		<div class="container modal-form" id="newItem-form">
+		<!--form action="bdd/login.php" method="post"-->
+		<form action="javascript:confirmCreate();">
+			<fieldset>
+	            <span id="cerrar" title="Cerrar" onclick="newItemWindow(false);">&times;</span>
+        		<legend>Crear Nuevo Articulo</legend>
+				<label>Nombre</label>
+				<input id="itemName" class="campo" type="text" value="">
+				<br>
+				<br>
+				<label>Precio ($)</label>
+				<input id="itemPrice" class="campo" type="text" value="">
+				<br>
+				<br>
+				<label>Categoria</label>
+  				<select id="itemCat" class="selectpicker">
+    				<option value="snacks">Snacks</option>
+    				<option value="almuerzo">Almuerzo</option>
+    				<option value="bebidas">Bebidas</option>
+    				<option value="otros">Otros</option>
+    			</select>
+				<br>
+				<br>
+				<input class="boton" type="submit" value="Ingresar">
+			</fieldset>
+		</form>
+		
+	</div>
+
+		<div class="container modal-form" id="newUser-form">
+		
+			<form action="javascript:confirmCreateUser();">
+			<fieldset>
+            <span id="cerrar" title="Cerrar" onclick="newUserWindow(false);">&times;</span>
+		    
+        		<legend>Crear Nuevo Usuario</legend>
+				<label>Nombre</label>
+				<input id="userName" class="campo" type="text" value="">
+				<br>
+				<br>
+				<label>Contraseña</label>
+				<input id="userPass" class="campo" type="password" value="">
+				<br>
+				<br>
+				<label>Confirmar Contraseña</label>
+				<input id="userPassConf" class="campo" type="password" value="">
+				<br>
+				<br>
+				<input class="boton" type="submit" value="Ingresar">
+		</fieldset>
+        </form>
+	</div>
+
+	<div class="container pull-center modal-form" id="deleteUser-form">
+		<!--form action="bdd/login.php" method="post"-->
+	    <form action="javascript:confirmDeleteUser();">
+		<fieldset>
+            <span id="cerrar" title="Cerrar" onclick="deleteUserWindow(false);">&times;</span>
+        		<legend>Borrar Usuario</legend>
+				<label>Nombre</label>
+  				<select id="userNameDelete" class="selectpicker">
+    			<script type="text/javascript">
+    				$.ajax({
+						url:"./bdd/queryInterface.php?table='usuario'&query=2&opt=1",
+						async:false,
+						success: function(input){
+							var obj=$.parseJSON(input);
+							var arr = $.map(obj, function(el) { return el });
+							var combo=document.getElementById("userNameDelete");
+							$.each(arr,function(index,elem){
+								var opt=document.createElement("option");
+								opt.value=elem["usuario"];
+								opt.innerHTML=elem["usuario"];
+								combo.appendChild(opt);
+						});
+					}
+				});	
+    			</script>
+    			</select>
+				<br>
+				<br>
+				<input class="boton" type="submit" value="Borrar">
+            
+		</fieldset>
+		</form>
+	</div>
+
+	<script type="text/javascript">
+		document.getElementById('newItem-form').style.display = 'none';
+		document.getElementById('newUser-form').style.display = 'none';
+		document.getElementById('deleteUser-form').style.display = 'none';
+	</script>
+	
+	
+</body>
+</html>

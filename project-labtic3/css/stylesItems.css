@@ -1,0 +1,17 @@
+/*.articulo .thumbnail{
+	background-image: url('https://www.wong.com.pe/comesano/images/imgRecetasLarge/Chuletas_de_cerdo.jpg');
+	height:100px;
+}*/
+
+.articulo .thumbnail{
+	position:relative;
+	padding:0px;
+}
+
+.precio{
+	position:absolute;
+	bottom:0;
+	right:0;
+	background-color:orange;
+	padding:5px;
+}

@@ -1,0 +1,36 @@
+#titulo{
+	text-align: left;
+}
+
+body{
+
+	padding: 20px;
+}
+
+#catalog,#list{
+	margin-top: 25px;
+}
+
+li:hover{
+	color: red;
+	cursor: pointer;
+}
+
+li:hover{
+	color: red;
+	cursor: pointer;
+}
+
+li:active{
+	color: blue;
+	cursor: pointer;
+}
+
+#marca:hover{
+	 text-shadow: 2px 2px #ff0000;
+}
+
+div>a{
+	text-decoration: none !important;
+	color: black;
+}

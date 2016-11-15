@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>none</title>
+</head>
+<body>
+<button id='lol' onclick="return promise();">lol</button>
+</body>
+<script   src="http://code.jquery.com/jquery-3.1.1.js"   integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="   crossorigin="anonymous"></script>
+<script   src="./bdAccess.js"></script>
+<script type="text/javascript">
+function promise(){
+// var id = 6; 
+// $.post("./queryInterface.php?table='item'&query="+id+"&opt=3");
+// borrarItem("sushi");
+// crearItem("20","coca","NULL",getIdAll("categoria","bebidas"));
+// // // selectItem(nombre);
+
+// crearItem("20","coca","NULL","bebidas");
+var arr;
+$.ajax(
+{
+		url:"./queryInterface.php?table='item'&query=2&opt=1",
+		async:false,
+		success: function(input){
+				var obj=$.parseJSON(input);
+				arr = $.map(obj, function(el) { return el }); // Mapaeo del JSON
+				}
+		}
+		
+	);
+// $.ajaxSetup({async:false});
+// ctrl={out:false,arr:null};
+// selectItem("coca",ctrl);
+$.each(arr,function(index,elem){
+	alert(elem["nombre"]);
+	alert(elem["rutaFoto"]);
+});
+// alert(checkItem("vino"));
+}
+</script>
+</html>
